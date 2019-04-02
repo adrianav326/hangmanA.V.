@@ -67,3 +67,69 @@ function startGame(){
     document.getElementById("word-blank").innerHTML = blanksAndSuccesses.join(" ")
     
 }
+
+//It's where we'll do all of the comparisons for watches 
+function checkLetter(letter) {
+
+    //This boolean will be toggled based on whether or not a user letter is found in the word
+    var letterInWord = false;
+
+    //Check if the letter exists inside the array at all 
+    for (var i = 0; i < numBlanks; i++) {
+        if (chosenWord[i] === letter) {
+
+            //If the letter exists then toggle this boolean to true. This will be used in the next step
+            letterInWord = true;
+        }
+    }
+
+
+    //If the letter exists somewhere in the word, then figure out exactly where (which indices)
+    if (letterInWord) {
+
+        //Loop through the word
+        for (var j = 0; j < numBlanks; j++) {
+
+            //Populate the blanksAndSuccesses with every instance of the letter 
+            if (chosenWord[j === letter) {
+
+                //Here we set the specific space in blanks and letter equal to the letter when it matches 
+                blanksAndSuccesses[j] = letter;
+            }
+        }
+
+        //Logging for the testing
+        console.log(blanksAndSuccesses);
+    }
+    //If the letter doesn't exist at all...
+    else {
+
+        //...then we add the letter to the list of wrong letters; and we subtractone of the guesses
+        wrongGuesses.push(letter);
+        numGuesses--;
+    }
+}
+
+//Here we will have all of the code that will need to be run after each guess is made
+function roundComplete() {
+
+    //First, log an initial status update in the console telling us how many wins, losses, and guesses are 
+    console.log(`WinCount: ${winCounter} | LossCount: ${lossCounter} | NumGuesses: ${numGuesses}`);
+
+    //Update the HTML to reflect the number of guesses. Also update the correct guesses
+    document.getElementById("guesses-left").innerHTML = numGuesses;
+
+    //This will print the array of guesses and blanks onto the page
+    document.getElementById("word-blanks").innerHTML = blanksAndSuccesses.join(" ");
+
+    //This will print the wrong guesses onto the page
+    document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(" ");
+
+    //If we have gotten all the letters to match the solution...
+    if (letterInChosenWord.toString() === blanksAndSuccesses.toString()) {
+
+        //...add to the win counter and give the useran alert
+    }
+
+
+}
