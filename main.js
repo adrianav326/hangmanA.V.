@@ -35,7 +35,7 @@ function startGame(){
     numGuesses = 9;
 
     //Solution is chosen randomly from wordList
-    chosenWord = wordsList[Math.floor()(Math.random() * wordsList.length)];
+    chosenWord = wordsList[Math.floor(Math.random() * wordsList.length)];
 
     //The word is broken into individual letters
     lettersInChosenWord = chosenWord.split("");
@@ -54,7 +54,7 @@ function startGame(){
     //Fill up the blanksAndSuccesses list with appropriate number of blanks, which 
     //is based on the number of letters in the solution 
     for (var i = 0; i < numBlanks; i++){
-        blanksAndSuccesses.push("_";)
+        blanksAndSuccesses.push("_");
     }
     
     //Print the initial blanks in the console
@@ -64,8 +64,10 @@ function startGame(){
     document.getElementById("guesses-left").innerHTML = numGuesses;
 
     //Prints the blanks at the beginning of each round in the HTML 
-    document.getElementById("word-blank").innerHTML = blanksAndSuccesses.join(" ")
+    document.getElementById("word-blanks").innerHTML = blanksAndSuccesses.join(" ");
     
+    // Clears the wrong guesses from the previous round
+     document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(" ");
 }
 
 //It's where we'll do all of the comparisons for watches 
@@ -76,6 +78,7 @@ function checkLetter(letter) {
 
     //Check if the letter exists inside the array at all 
     for (var i = 0; i < numBlanks; i++) {
+
         if (chosenWord[i] === letter) {
 
             //If the letter exists then toggle this boolean to true. This will be used in the next step
@@ -91,7 +94,7 @@ function checkLetter(letter) {
         for (var j = 0; j < numBlanks; j++) {
 
             //Populate the blanksAndSuccesses with every instance of the letter 
-            if (chosenWord[j === letter) {
+            if (chosenWord[j] === letter) {
 
                 //Here we set the specific space in blanks and letter equal to the letter when it matches 
                 blanksAndSuccesses[j] = letter;
@@ -128,8 +131,50 @@ function roundComplete() {
     //If we have gotten all the letters to match the solution...
     if (letterInChosenWord.toString() === blanksAndSuccesses.toString()) {
 
-        //...add to the win counter and give the useran alert
+        //...add to the win counter and give the user an alert
+        winCounter++;
+        alert("You win!");
+
+        // Update the win counter in the HTML and restart the game
+        document.getElementById("win-counter").innerHTML = winCounter;
+        startGame();
+
+    } 
+
+    // If we've run out of guesses...
+    else if (numGuesses === 0) {
+
+        // Add to the loss counter
+        lossCounter++;
+
+        // Give the user an alert
+        alert("You lose");
+
+        // Update the loss counter in the HTML
+        document.getElementById("loss-counter").innerHTML = lossCounter;
+
+        // Restart the game
+        startGame();
     }
 
+};
 
-}
+
+//MAIN PROCESS (this is the code that controls what is actually run)
+//------------------------------------------------------------------------------------
+
+//Starts the Game
+startGame();
+
+//Then initiate the function for capturing key clicks
+document.onkeyup = function(event) {
+
+    //Converts all ke clips to lowercase letter 
+    var letterGuessed = String.fromCharCode(event.keyCode).toLowerCase();
+
+    //Run the code to check for correctness
+    checkLetter(letterGuessed);
+
+    //Runs the code after each round is done 
+    roundComplete();
+};
