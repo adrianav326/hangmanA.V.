@@ -7,7 +7,8 @@ var wordsList = ["mary poppins", "avengers", "justice league"]
 //Solutions will be held here
 var chosenWord = "";
 
-//This will break the solution into individual lettersto be started in an array
+//This will break the solution into individual 
+//letters to be started in an array
 var lettersInChosenWord = [];
 
 //This will be the number of blanks we show based on the solution
@@ -28,9 +29,10 @@ var numGuesses = 9;
 //FUNCTIONS
 //---------------------------------------------------------
 
-//Note: The startGame() function is not being run here. It's just being
+//Note: startGame() is not being run here. It's just being
 //      made for future use.
-function startGame(){
+function startGame() {
+
     //Resets the guesses back to specified amount
     numGuesses = 9;
 
@@ -71,7 +73,7 @@ function startGame(){
 }
 
 //It's where we'll do all of the comparisons for watches 
-function checkLetter(letter) {
+function checkLetters(letter) {
 
     //This boolean will be toggled based on whether or not a user letter is found in the word
     var letterInWord = false;
@@ -129,7 +131,7 @@ function roundComplete() {
     document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(" ");
 
     //If we have gotten all the letters to match the solution...
-    if (letterInChosenWord.toString() === blanksAndSuccesses.toString()) {
+    if (lettersInChosenWord.toString() === blanksAndSuccesses.toString()) {
 
         //...add to the win counter and give the user an alert
         winCounter++;
@@ -166,14 +168,15 @@ function roundComplete() {
 //Starts the Game
 startGame();
 
+
 //Then initiate the function for capturing key clicks
 document.onkeyup = function(event) {
 
-    //Converts all ke clips to lowercase letter 
+    //Converts all key clicks to lowercase letter 
     var letterGuessed = String.fromCharCode(event.keyCode).toLowerCase();
 
     //Run the code to check for correctness
-    checkLetter(letterGuessed);
+    checkLetters(letterGuessed);
 
     //Runs the code after each round is done 
     roundComplete();
